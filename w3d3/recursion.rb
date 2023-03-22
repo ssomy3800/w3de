@@ -179,17 +179,35 @@ end
 
 # p permutations([1, 2, 3, 4])
 
-def greedy_make_change(amount, coins)
+# def greedy_make_change(amount, coins)
+#     return [] if amount == 0
+#     all_coins = []
+#     coins.each do |coin|
+#         if amount - coin >= 0
+#             all_coins << coin
+#             all_coins += greedy_make_change(amount-coin, coins)
+#             break
+#         end
+#     end
+#     all_coins
+# end
+
+# p greedy_make_change(24, [10,7,1])
+
+def make_better_change(amount, coins)
     return [] if amount == 0
     all_coins = []
+    
     coins.each do |coin|
         if amount - coin >= 0
-            all_coins << coin
-            all_coins += greedy_make_change(amount-coin, coins)
-            break
+            previous_step = make_better_change(amount-coin, coins)
+            all_coins << previous_step.map {|ele| ele + [coin]}
+        # elsif 
+        #     amount - coin == 0
+        #     all_coins += [coin]
         end
     end
     all_coins
 end
 
-p greedy_make_change(24, [10,7,1])
+p make_better_change(6, [5,1])
